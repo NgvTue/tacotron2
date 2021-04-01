@@ -206,6 +206,7 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
     print(len(train_loader))
     for epoch in range(epoch_offset, hparams.epochs):
         print("Epoch: {}".format(epoch))
+        all_loss = []
         for i, batch in enumerate(train_loader):
             start = time.perf_counter()
             for param_group in optimizer.param_groups:
@@ -235,7 +236,7 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
                     model.parameters(), hparams.grad_clip_thresh)
 
             optimizer.step()
-
+            all_loss.append(reduced_loss)
             if not is_overflow and rank == 0:
                 duration = time.perf_counter() - start
                 print("Train loss {} {:.6f} Grad Norm {:.6f} {:.2f}s/it".format(
@@ -254,7 +255,13 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
                                     checkpoint_path)
 
             iteration += 1
-
+        with open("./log_loss.txt","r+") as f:
+            d = f.read()
+        with open("./log_loss.txt","w+") as f:
+            # d = f.read()
+            d = d + "\n" + str(sum(all_loss) / len(all_loss))
+            f.write(d)
+        print("end epochs {}".format(sum(all_loss) / len(all_loss)))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

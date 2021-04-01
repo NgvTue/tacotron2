@@ -164,7 +164,7 @@ def create_hparams(hparams_string=None, verbose=False):
             ################################
         # Experiment Parameters        #
         ################################
-        epochs=23,
+        epochs=37,
         iters_per_checkpoint=200,
         seed=1234,
         dynamic_loss_scaling=True,
@@ -245,8 +245,16 @@ def create_hparams(hparams_string=None, verbose=False):
 
     if hparams_string:
         # tf.logging.info('Parsing command line hparams: %s', hparams_string)
-        hparams.parse(hparams_string)
-
+        # hparams.parse(hparams_string)
+        if 'epoch' in hparams_string:
+          hparams.override(
+            dict(
+              epochs = int(hparams_string.split("-")[-1])
+            )
+          )
+      # print(h)
+    # hparams.save_to_yaml("./ok.yaml")
+    print(hparams)
     # if verbose:
     #     tf.logging.info('Final parsed hparams: %s', hparams.values())
 
