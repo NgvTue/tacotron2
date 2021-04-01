@@ -49,6 +49,7 @@ if __name__ =='__main__':
     reverser_dict = {
         v:k for k,v in train_loader.dataset.text_embedding.symbol2numeric_dict.items()
     }
+    print(len(reverser_dict))
     a = [reverser_dict[i] for i in a]
     print("".join(a))
     text,mel = train_loader.dataset[0]
