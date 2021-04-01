@@ -264,7 +264,7 @@ if __name__ == '__main__':
                         help='directory to save tensorboard logs')
     parser.add_argument('-c', '--checkpoint_path', type=str, default=None,
                         required=False, help='checkpoint path')
-    parser.add_argument('--warm_start', action='store_true', default=True,
+    parser.add_argument('--warm_start', action='store_true', default=False,
                         help='load model weights only, ignore specified layers')
     parser.add_argument('--n_gpus', type=int, default=1,
                         required=False, help='number of gpus')
