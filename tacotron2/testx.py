@@ -42,6 +42,7 @@ import matplotlib.pyplot as plt
 if __name__ =='__main__':
     hparams = create_hparams()
     train_loader, valset, collate_fn = prepare_dataloaders(hparams)
+    print(len(train_loader), len(valset))
     z = train_loader.dataset.get_text("hơn một trăm * nhưng họ chia thành từng nhóm nhỏ #")
     print(z)
     print(train_loader.dataset.text_embedding.symbol2numeric_dict)
