@@ -42,19 +42,19 @@ import matplotlib.pyplot as plt
 if __name__ =='__main__':
     hparams = create_hparams()
     train_loader, valset, collate_fn = prepare_dataloaders(hparams)
-    print(len(train_loader), len(valset))
+    # print(len(train_loader), len(valset))
     z = train_loader.dataset.get_text("hơn một trăm * nhưng họ chia thành từng nhóm nhỏ #")
-    print(z)
+    # print(z)
     print(train_loader.dataset.text_embedding.symbol2numeric_dict)
     a = z.detach().numpy().tolist()
     reverser_dict = {
         v:k for k,v in train_loader.dataset.text_embedding.symbol2numeric_dict.items()
     }
-    print(len(reverser_dict))
+    # print(len(reverser_dict))
     a = [reverser_dict[i] for i in a]
-    print("".join(a))
+    # print("".join(a))
     text,mel = train_loader.dataset[0]
-    print(mel.shape)
+    # print(mel.shape)
     fig, ax = plt.subplots()
     # M = librosa.feature.melspectrogram(y=y, sr=sr)
     # M_db = librosa.power_to_db(M, ref=np.max)
