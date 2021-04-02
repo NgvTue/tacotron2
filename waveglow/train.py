@@ -137,8 +137,8 @@ def train(num_gpus, rank, group_name, output_directory, epochs, learning_rate,
                 loss.backward()
 
             optimizer.step()
-
-            print("{}:\t{:.9f}".format(iteration, reduced_loss))
+            
+            print("iter{}:\t loss{:.9f}".format(iteration, reduced_loss))
             if with_tensorboard and rank == 0:
                 logger.add_scalar('training_loss', reduced_loss, i + len(train_loader) * epoch)
 
