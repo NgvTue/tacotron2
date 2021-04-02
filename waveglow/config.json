@@ -12,7 +12,7 @@
         "with_tensorboard": false
     },
     "data_config": {
-        "training_files": "/home/tuenguyen/speech/tacotron2/tacotron2/filelists/vlsp/test_decoder.txt",
+        "training_files": "/home/tuenguyen/speech/tacotron2/tacotron2/filelists/vlsp/train_decoder.txt",
         "segment_length": 16000,
         "sampling_rate": 22050,
         "filter_length": 1024,
