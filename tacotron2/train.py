@@ -263,9 +263,9 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
         #     f.write(d)
         with open("./log_loss_{}.txt".format(epoch),"w+") as f:
             f.write("end epochs {}".format(sum(all_loss) / len(all_loss)) )
-        print("end epochs {}".format(sum(all_loss) / len(all_loss)))
-    checkpoint_path = "{}/waveglow_{}".format(
-                        output_directory, iteration)
+        # print("end epochs {}".format(sum(all_loss) / len(all_loss)))
+    checkpoint_path = os.path.join(
+                        output_directory, "checkpoint_{}".format(iteration))
                     save_checkpoint(model, optimizer, learning_rate, iteration,
                                     checkpoint_path)
 
