@@ -255,12 +255,14 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
                                     checkpoint_path)
 
             iteration += 1
-        with open("./log_loss.txt","r+") as f:
-            d = f.read()
-        with open("./log_loss.txt","w+") as f:
-            # d = f.read()
-            d = d + "\n" + str(sum(all_loss) / len(all_loss))
-            f.write(d)
+        # with open("./log_loss.txt","r+") as f:
+        #     d = f.read()
+        # with open("./log_loss.txt","w+") as f:
+        #     # d = f.read()
+        #     d = d + "\n" + str(sum(all_loss) / len(all_loss))
+        #     f.write(d)
+        with open("./log_loss_{}.txt".format(epoch),"w+") as f:
+            f.write("end epochs {}".format(sum(all_loss) / len(all_loss)) )
         print("end epochs {}".format(sum(all_loss) / len(all_loss)))
 
 if __name__ == '__main__':
