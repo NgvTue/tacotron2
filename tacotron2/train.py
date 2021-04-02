@@ -266,8 +266,8 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
         # print("end epochs {}".format(sum(all_loss) / len(all_loss)))
     checkpoint_path = os.path.join(
                         output_directory, "checkpoint_{}".format(iteration))
-                    save_checkpoint(model, optimizer, learning_rate, iteration,
-                                    checkpoint_path)
+    save_checkpoint(model, optimizer, learning_rate, iteration,
+                    checkpoint_path)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
