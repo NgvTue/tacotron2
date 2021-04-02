@@ -13,6 +13,7 @@
     },
     "data_config": {
         "training_files": "/home/tuenguyen/speech/tacotron2/tacotron2/filelists/vlsp/train_decoder.txt",
+        "post_fix_mel":"/home/tuenguyen/speech/tacotron2/tacotron2/filelists/mel",
         "segment_length": 16000,
         "sampling_rate": 22050,
         "filter_length": 1024,

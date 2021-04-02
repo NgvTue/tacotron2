@@ -1,3 +1,38 @@
+# import os,sys,json
+
+# import random
+# import numpy as np
+
+# np.random.seed(44)
+
+# # metadata 
+# with open("./filelists/vlsp/metadata.txt", "r+") as f:
+#     metadata = f.read()
+#     metadata = metadata.strip().split('\n')
+#     metadata = list(metadata)
+#     metadata = ["./filelists/vlsp/wavs_train/" + i.split("|")[0] for i in metadata]
+
+# np.random.shuffle(metadata)
+
+# N = len(metadata)
+
+# N_test  = int(N / 10)
+# N_train = N- N_test
+# print(N_train)
+
+# train = metadata[:N_train]
+# test = metadata[N_train:]
+# val = [i for i in test]
+
+# with open("./filelists/vlsp/train_decoder.txt","w+") as f:
+#     f.write("\n".join(train))
+# with open("./filelists/vlsp/test_decoder.txt","w+") as f:
+#     f.write("\n".join(test))
+# with open("./filelists/vlsp/val_decoder.txt","w+") as f:
+#     f.write("\n".join(val))
+
+
+
 # *****************************************************************************
 #  Copyright (c) 2018, NVIDIA CORPORATION.  All rights reserved.
 #
@@ -35,8 +70,7 @@ from scipy.io.wavfile import read
 
 # We're using the audio processing from TacoTron2 to make sure it matches
 sys.path.insert(0, 'tacotron2')
-
-from tacotron2.layers import TacotronSTFT
+from layers import TacotronSTFT
 
 MAX_WAV_VALUE = 32768.0
 
@@ -64,7 +98,7 @@ class Mel2Samp(torch.utils.data.Dataset):
     spectrogram, audio pair.
     """
     def __init__(self, training_files, segment_length, filter_length,
-                 hop_length, win_length, sampling_rate, mel_fmin, mel_fmax, post_fix_mel=None):
+                 hop_length, win_length, sampling_rate, mel_fmin, mel_fmax):
         self.audio_files = files_to_list(training_files)
         random.seed(1234)
         random.shuffle(self.audio_files)
@@ -75,11 +109,8 @@ class Mel2Samp(torch.utils.data.Dataset):
                                  mel_fmin=mel_fmin, mel_fmax=mel_fmax)
         self.segment_length = segment_length
         self.sampling_rate = sampling_rate
-        self.post_fix_mel = post_fix_mel
 
     def get_mel(self, audio):
-        # if self.post_fix_mel is not None:
-            
         audio_norm = audio / MAX_WAV_VALUE
         audio_norm = audio_norm.unsqueeze(0)
         audio_norm = torch.autograd.Variable(audio_norm, requires_grad=False)
@@ -91,7 +122,6 @@ class Mel2Samp(torch.utils.data.Dataset):
         # Read audio
         filename = self.audio_files[index]
         audio, sampling_rate = load_wav_to_torch(filename)
-        
         if sampling_rate != self.sampling_rate:
             raise ValueError("{} SR doesn't match target {} SR".format(
                 sampling_rate, self.sampling_rate))
@@ -103,26 +133,20 @@ class Mel2Samp(torch.utils.data.Dataset):
             audio = audio[audio_start:audio_start+self.segment_length]
         else:
             audio = torch.nn.functional.pad(audio, (0, self.segment_length - audio.size(0)), 'constant').data
-        if self.post_fix_mel is not None:
-            new_path = filename.split(os.path.sep)[-1]
-            new_path = os.path.join(
-                self.post_fix_mel,
-                new_path + ".pt"
-            )
-            mel = torch.load(new_path)
-        else:
-            mel = self.get_mel(audio)
+
+        mel = self.get_mel(audio)
         audio = audio / MAX_WAV_VALUE
 
         return (mel, audio)
 
     def __len__(self):
         return len(self.audio_files)
-
+from os import path
 # ===================================================================
 # Takes directory of clean audio and makes directory of spectrograms
 # Useful for making test sets
 # ===================================================================
+from tqdm import tqdm
 if __name__ == "__main__":
     # Get defaults so it can work with no Sacred
     parser = argparse.ArgumentParser()
@@ -144,11 +168,16 @@ if __name__ == "__main__":
     if not os.path.isdir(args.output_dir):
         os.makedirs(args.output_dir)
         os.chmod(args.output_dir, 0o775)
-
-    for filepath in filepaths:
+    a = tqdm(filepaths)
+    for filepath in a:
+        new_filepath = args.output_dir + '/' + filename + '.pt'
+        if path.exists(new_filepath):
+            a.set_postfix_str('ok {}'.format(new_filepath))
+            continue
         audio, sr = load_wav_to_torch(filepath)
         melspectrogram = mel2samp.get_mel(audio)
         filename = os.path.basename(filepath)
-        new_filepath = args.output_dir + '/' + filename + '.pt'
-        print(new_filepath)
+        
+        # print(new_filepath)
+        a.set_postfix_str(new_filepath)
         torch.save(melspectrogram, new_filepath)
