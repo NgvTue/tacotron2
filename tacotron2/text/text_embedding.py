@@ -190,6 +190,8 @@ class TextEmbedding:
                         "phone_vn_train":"./text/phone_vn_north.txt",
                         "phone_oov_train":"",
         }
+        if os.path.exists(config['phone_vn_train']) is False:
+            config['phone_vn_train'] = './tacotron2/text/phone_vn_north.txt'
         self.p_phone_mix = config['p_phone_mix']
         self.punctuation = config['punctuation']
         self.eos = config['eos']
@@ -225,7 +227,7 @@ class TextEmbedding:
         symbol2numeric_dict = {s: i for i, s in enumerate(symbols)}
         return symbol2numeric_dict
 
-    def text_norm(self, text, end_ws_list=end_wind_sound_list, ws_list=wind_sound_full_dict.keys()):
+    def text_norm(self, text, end_ws_list=end_wind_sound_list, ws_list=wind_sound_full_dict.keys(), eos=False):
         text = text.strip()
         # print(self.eos, text[-1] in self.eos)
         while text[-1] in (self.punctuation + self.eos + ' '):
@@ -245,7 +247,7 @@ class TextEmbedding:
                 text_out += word_out[:-1] + ' '
             else:
                 text_out += word + ' '
-        if self.eos:
+        if self.eos and eos:
             text_out = text_out + self.eos
         else:
             text_out = text_out[:-1]

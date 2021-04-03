@@ -34,8 +34,10 @@ import os
 
 # must ignore roman numerals
 _acronym_re = re.compile(r'([A-Z][A-Z]+)s?|([A-Z]\.([A-Z]\.)+s?)')
-cmudict = CMUDict('./text/cmudict_dictionary', keep_ambiguous=False)
-
+try:
+    cmudict = CMUDict('./text/cmudict_dictionary', keep_ambiguous=False)
+except:
+    cmudict  =  CMUDict('./tacotron2/text/cmudict_dictionary', keep_ambiguous=False)
 
 def _expand_acronyms(m, add_spaces=True):
     acronym = m.group(0)

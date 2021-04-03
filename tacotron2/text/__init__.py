@@ -119,4 +119,8 @@ def files_to_list(filename):
     files = [f.rstrip() for f in files]
     return files
 
-HETERONYMS = set(files_to_list('./text/heteronyms'))
+try:
+  HETERONYMS = set(files_to_list('./text/heteronyms'))
+
+except:
+  HETERONYMS = set(files_to_list('./tacotron2/text/heteronyms'))

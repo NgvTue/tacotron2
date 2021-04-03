@@ -22,10 +22,16 @@ class TextMelLoader(torch.utils.data.Dataset):
         self.max_wav_value = hparams.max_wav_value
         self.sampling_rate = hparams.sampling_rate
         self.load_mel_from_disk = hparams.load_mel_from_disk
-        self.cmudict = cmudict.CMUDict(
-            './text/phone_vn_north.txt',
-            keep_ambiguous=True
-        )
+        try:
+            self.cmudict = cmudict.CMUDict(
+                './text/phone_vn_north.txt',
+                keep_ambiguous=True
+            )
+        except:
+            self.cmudict = cmudict.CMUDict(
+                './tacotron2/text/phone_vn_north.txt',
+                keep_ambiguous=True
+            )
         self.text_embedding = text_embedding.TextEmbedding(None)
         self.p_arpabet = 0.5
 
