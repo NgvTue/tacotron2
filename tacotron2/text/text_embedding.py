@@ -227,7 +227,7 @@ class TextEmbedding:
         symbol2numeric_dict = {s: i for i, s in enumerate(symbols)}
         return symbol2numeric_dict
 
-    def text_norm(self, text, end_ws_list=end_wind_sound_list, ws_list=wind_sound_full_dict.keys(), eos=False):
+    def text_norm(self, text, end_ws_list=end_wind_sound_list, ws_list=wind_sound_full_dict.keys(), eos=True):
         text = text.strip()
         # print(self.eos, text[-1] in self.eos)
         while text[-1] in (self.punctuation + self.eos + ' '):
