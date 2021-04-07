@@ -217,9 +217,19 @@ def train(rank, a, h):
 
             steps += 1
 
-        scheduler_g.step()
-        scheduler_d.step()
-        
+    scheduler_g.step()
+    scheduler_d.step()
+    checkpoint_path = "{}/g_{:08d}".format(a.checkpoint_path, steps)
+    save_checkpoint(checkpoint_path,
+                    {'generator': (generator.module if h.num_gpus > 1 else generator).state_dict()})
+    checkpoint_path = "{}/do_{:08d}".format(a.checkpoint_path, steps)
+    save_checkpoint(checkpoint_path, 
+                    {'mpd': (mpd.module if h.num_gpus > 1
+                                            else mpd).state_dict(),
+                        'msd': (msd.module if h.num_gpus > 1
+                                            else msd).state_dict(),
+                        'optim_g': optim_g.state_dict(), 'optim_d': optim_d.state_dict(), 'steps': steps,
+                        'epoch': epoch})
         if rank == 0:
             print('Time taken for epoch {} is {} sec\n'.format(epoch + 1, int(time.time() - start)))
 
