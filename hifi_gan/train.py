@@ -217,6 +217,10 @@ def train(rank, a, h):
 
             steps += 1
 
+    
+        if rank == 0:
+            print('Time taken for epoch {} is {} sec\n'.format(epoch + 1, int(time.time() - start)))
+    
     scheduler_g.step()
     scheduler_d.step()
     checkpoint_path = "{}/g_{:08d}".format(a.checkpoint_path, steps)
@@ -230,8 +234,6 @@ def train(rank, a, h):
                                             else msd).state_dict(),
                         'optim_g': optim_g.state_dict(), 'optim_d': optim_d.state_dict(), 'steps': steps,
                         'epoch': epoch})
-        if rank == 0:
-            print('Time taken for epoch {} is {} sec\n'.format(epoch + 1, int(time.time() - start)))
 
 
 def main():
