@@ -1,0 +1,1 @@
+python3 train.py --input_wavs_dir ../tacotron2/filelists/vlsp/wavs_train/ --input_training_file ../tacotron2/filelists/vlsp/metadata.txt --config ./config_v1.json --training_epochs 2
