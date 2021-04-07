@@ -1,0 +1,25 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="00044_data" version="1.3.0" audacityversion="2.3.3" sel0="1.4987892451" sel1="1.4987892451" vpos="0" h="0.0000000000" zoom="358.9564054915" rate="22050.0" snapto="off" selectionformat="hh:mm:ss + milliseconds" frequencyformat="Hz" bandwidthformat="octaves">
+	<tags/>
+	<wavetrack name="00044" isSelected="0" height="150" minimized="0" channel="2" linked="0" mute="0" solo="0" rate="22050" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="105472">
+				<waveblock start="0">
+					<simpleblockfile filename="eff1f4fd.au" len="105472" min="-0.799988" max="0.77475" rms="0.277363"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<labeltrack name="Label Track" isSelected="0" height="73" minimized="0" numlabels="8">
+		<label t="-0.0600907029" t1="1.2074829932" title="1"/>
+		<label t="0.0000000000" t1="1.0948404708" title="đây là đâu tôi là ai"/>
+		<label t="0.0000000000" t1="4.7891156463" title=""/>
+		<label t="0.0000000000" t1="4.7833106576" title=""/>
+		<label t="0.0891473157" t1="0.0891473157" title=""/>
+		<label t="1.1371882086" t1="2.6043083900" title="2"/>
+		<label t="2.6736961451" t1="3.6918367347" title="3"/>
+		<label t="3.6714285714" t1="4.7891156463" title="4"/>
+	</labeltrack>
+</project>
