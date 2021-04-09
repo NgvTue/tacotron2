@@ -102,6 +102,7 @@ def train(rank, a, h):
     generator.train()
     mpd.train()
     msd.train()
+    last_epoch = 0
     for epoch in range(max(0, last_epoch), a.training_epochs):
         if rank == 0:
             start = time.time()
